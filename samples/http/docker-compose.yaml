@@ -1,6 +1,9 @@
 services:
   kexa:
-    build: ../../
+    build: https://github.com/kexa-io/Kexa.git
+    #image: innovtech/kexa
+    env_file:
+      - .env
     volumes:
       - ./config:/usr/src/app/config
       - ./rules:/usr/src/app/rules
