@@ -1,0 +1,29 @@
+{ 
+    "kubernetes": [
+        {
+          "name": "kube01",
+          "prefix": "KUBE1_",
+          "description": "kube for my prod 01",
+          "rules": [
+              "kub-prod-check"
+          ]
+        }
+      ],
+      "save":[
+          {
+              "type": "postgres",
+              "name": "kexa_export_database",
+              "description": "Database to save the data",
+              "urlName": "postgres://admin:admin456@127.0.0.1:5432/kexa_export_database",
+              "logs": true
+          }
+      ],
+        "general":[
+            {
+                "timeout": 1,         
+                "maxRetry": 2,        
+                "checkInterval": 120, 
+                "alertInterval": 3600 
+            }
+        ]
+}

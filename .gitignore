@@ -61,7 +61,6 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db 
-samples/http/config/headers.json
-samples/http/config/addOnNeed.json
-samples/kubernetes/config/addOnNeed.json
-samples/kubernetes/config/headers.json
+*addOnNeed.json
+*headers.json
+*bdd
