@@ -14,16 +14,22 @@
               "type": "postgres",
               "name": "kexa_export_database",
               "description": "Database to save the data",
-              "urlName": "postgres://admin:admin456@127.0.0.1:5432/kexa_export_database",
+              "urlName": "postgres://admin:admin456@127.0.0.1:5432/kexa_export_database?sslmode=disable",
               "logs": true
           }
       ],
-        "general":[
-            {
+    "export": [
+        {
+            "type": "postgres",
+            "name": "DB2",
+            "description": "Database to save the data in subscription EFQD",
+            "urlName": "postgres://admin:admin456@127.0.0.1:5432/kexa_export_database?sslmode=disable"
+        }
+    ],
+      "general":{
                 "timeout": 1,         
                 "maxRetry": 2,        
                 "checkInterval": 120, 
                 "alertInterval": 3600 
-            }
-        ]
+        }
 }
