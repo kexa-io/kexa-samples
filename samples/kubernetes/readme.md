@@ -10,17 +10,10 @@ This directory contains sample configurations and rules for running Kexa in a Ku
 
 ## Setup
 
-1. Set your Kubernetes configuration:
+1. just run 
 
     ```bash
-    export KUBE1_KUBECONFIG=~/.kube/config
-    ```
-
-2. Ensure you have the necessary permissions and access to your Kubernetes cluster.
-3. For local development and testing, you can use the provided docker-compose setup:
-
-    ```bash
-    docker-compose up -d
+    docker-compose up
     ```
 
 ## Configuration
