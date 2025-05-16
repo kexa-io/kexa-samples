@@ -1,5 +1,5 @@
 - version: 1.0.0
-  date: 07-18-2023
+  date: 05-16-2025
   alert:
     fatal:
       enabled: true
@@ -61,7 +61,7 @@
     - name: "all-pods-running-kexawebsite"
       description : "this rules is to check if all pods are running for a namespace"
       applied: true
-      level: 2
+      level: 0
       cloudProvider: kubernetes
       objectName : pods
       conditions:

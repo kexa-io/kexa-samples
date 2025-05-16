@@ -6,5 +6,6 @@ services:
     env_file:
       - .env
     volumes:
+      - ~/.kube/config:/usr/src/config
       - ./config:/usr/src/app/config
       - ./rules:/usr/src/app/rules
