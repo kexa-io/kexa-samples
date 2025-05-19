@@ -12,20 +12,11 @@
       "save":[
           {
               "type": "postgres",
-              "name": "kexa_export_database",
+              "name": "kexabdd",
               "description": "Database to save the data",
-              "urlName": "postgresql://admin:admin456@localhost:5432/kexa_export_database",
-              "logs": true
+              "urlName": "postgres://admin:admn45@localhost:5432/kexabdd"
           }
       ],
-    "export": [
-        {
-            "type": "postgres",
-            "name": "DB2",
-            "description": "Database to save the data in subscription EFQD",
-            "urlName": "postgresql://admin:admin456@localhost:5432/kexa_export_database"
-        }
-    ],
     "general":{
           "timeout": 1,         
           "maxRetry": 2,        
