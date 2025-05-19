@@ -9,18 +9,16 @@
           ]
         }
       ],
-      "save":[
+      "save": [
           {
-              "type": "postgres",
+              "type": "mySQL",
               "name": "kexabdd",
               "description": "Database to save the data",
-              "urlName": "DB_CONNECTION_STRING"
+              "urlName": "mysql://admin:admn45@localhost:3306/kexabdd"
           }
       ],
-    "general":{
-          "timeout": 1,         
-          "maxRetry": 2,        
-          "checkInterval": 120, 
+      "general":{    
+          "checkInterval": 5, 
           "alertInterval": 3600 
-    }
+      }
 }

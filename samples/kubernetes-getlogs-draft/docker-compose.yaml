@@ -2,6 +2,7 @@ services:
   kexa:
     build: https://github.com/kexa-io/Kexa.git
     #image: innovtech/kexa
+    container_name: kexa
     env_file:
       - .env
     volumes:
@@ -10,19 +11,34 @@ services:
       - ./rules:/usr/src/app/rules
     networks:
       - bbdnet
-  bdd:
-    image: postgres:latest
-    container_name: bdd
+  # bdd-posgresql:
+  #   image: postgres:latest
+  #   container_name: bdd-postgresql
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: admn45
+  #     POSTGRES_DB: kexabdd
+  #     PGDATA: /var/lib/postgresql/data/pgdata # Emplacement des données à l'intérieur du conteneur
+  #   volumes:
+  #     - ./bdd-posgresql:/var/lib/postgresql/data
+  #   networks:
+  #     - bbdnet
+
+  bdd-mysql:
+    image: mysql
+    container_name: bdd-mysql
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admn45
-      POSTGRES_DB: kexabdd
-      PGDATA: /var/lib/postgresql/data/pgdata # Emplacement des données à l'intérieur du conteneur
+      MYSQL_USER: admin
+      MYSQL_ROOT_PASSWORD: admn45
+      MYSQL_DATABASE: kexabdd
     volumes:
-      - ./bdd:/var/lib/postgresql/data
+      - ./bdd-mysql:/var/lib/postgresql/data
     networks:
       - bbdnet
+
 networks:
   bbdnet:
