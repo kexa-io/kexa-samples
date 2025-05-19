@@ -9,8 +9,7 @@ services:
       - ~/.kube/config:/usr/src/config
       - ./config:/usr/src/app/config
       - ./rules:/usr/src/app/rules
-    networks:
-      - bbdnet
+
   # bdd-posgresql:
   #   image: postgres:latest
   #   container_name: bdd-postgresql
@@ -37,8 +36,3 @@ services:
       MYSQL_DATABASE: kexabdd
     volumes:
       - ./bdd-mysql:/var/lib/postgresql/data
-    networks:
-      - bbdnet
-
-networks:
-  bbdnet:
