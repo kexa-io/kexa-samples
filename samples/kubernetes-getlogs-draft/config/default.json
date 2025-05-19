@@ -14,7 +14,7 @@
               "type": "postgres",
               "name": "kexabdd",
               "description": "Database to save the data",
-              "urlName": "postgres://admin:admn45@localhost:5432/kexabdd"
+              "urlName": "DB_CONNECTION_STRING"
           }
       ],
     "general":{
