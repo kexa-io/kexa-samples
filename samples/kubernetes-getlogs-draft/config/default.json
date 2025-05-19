@@ -11,10 +11,12 @@
       ],
       "save": [
           {
-              "type": "mySQL",
-              "name": "kexabdd",
+              "type": "mongoDB",
+              "name": "DB2",
               "description": "Database to save the data",
-              "urlName": "mysql://admin:admn45@localhost:3306/kexabdd"
+              "collectionName": "KexaCollection",
+              "urlName": "mongodb://admin:adm45@localhost:27017/kexabdd",
+              "logs": true
           }
       ],
       "general":{    

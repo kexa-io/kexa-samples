@@ -9,7 +9,8 @@ services:
       - ~/.kube/config:/usr/src/config
       - ./config:/usr/src/app/config
       - ./rules:/usr/src/app/rules
-
+    networks:
+      - bbdnet
   # bdd-posgresql:
   #   image: postgres:latest
   #   container_name: bdd-postgresql
@@ -25,14 +26,34 @@ services:
   #   networks:
   #     - bbdnet
 
-  bdd-mysql:
-    image: mysql
-    container_name: bdd-mysql
+  # bdd-mysql:
+  #   image: mysql
+  #   container_name: bdd-mysql
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_USER: admin
+  #     MYSQL_ROOT_PASSWORD: admn45
+  #     MYSQL_DATABASE: kexabdd
+  #   volumes:
+  #     - ./bdd-mysql:/var/lib/mysql
+  #   networks:
+  #     - bbdnet
+
+  bdd-mongodb:
+    image: mongo
+    container_name: bdd-mongodb
     ports:
-      - "3306:3306"
+      - "27017:27017"
     environment:
-      MYSQL_USER: admin
-      MYSQL_ROOT_PASSWORD: admn45
-      MYSQL_DATABASE: kexabdd
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGODB_ROOT_PASSWORD: admn45
+      MONGODB_DATABASE: kexabdd
     volumes:
-      - ./bdd-mysql:/var/lib/postgresql/data
+      - ./init-mongo-db-with-collections.js:/docker-entrypoint-initdb.d/init-mongo-db-with-collections.js:ro
+      - ./bdd-mongodb:/data/db
+    networks:
+      - bbdnet
+
+networks:
+  bbdnet:

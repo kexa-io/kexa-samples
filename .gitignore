@@ -63,4 +63,6 @@ ehthumbs.db
 Thumbs.db 
 *addOnNeed.json
 *headers.json
-*bdd
+*bdd-postgresql
+*bdd-mysql
+*bdd-mongodb
