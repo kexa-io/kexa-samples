@@ -11,16 +11,15 @@
       ],
       "save": [
           {
-              "type": "mongoDB",
+              "type": "postgres",
               "name": "DB2",
               "description": "Database to save the data",
-              "collectionName": "KexaCollection",
-              "urlName": "mongodb://admin:adm45@localhost:27017/kexabdd",
+              "urlName": "postgresql://admin:admn45@bddpostgresql:5432/kexabdd",
               "logs": true
           }
       ],
-      "general":{    
-          "checkInterval": 5, 
-          "alertInterval": 3600 
-      }
+    "general":{
+        "checkInterval": "5",
+        "alertInterval": "3600"
+    }
 }

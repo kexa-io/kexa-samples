@@ -12,20 +12,24 @@ services:
       - ./config:/usr/src/app/config
       - ./rules:/usr/src/app/rules
     depends_on:
-     - bddpostgresql
+     - mongogui
+     - bddmongodb
 
-  bddpostgresql:
-    image: postgres:latest
-    container_name: bddpostgresql
+# for kexa config : "urlName": ""
+
+  bddmysql:
+    image: mysql
+    container_name: bddmysql
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admn45
-      POSTGRES_DB: kexabdd
-      PGDATA: /var/lib/postgresql/data/pgdata # Emplacement des données à l'intérieur du conteneur
+      MYSQL_USER: admin
+      MYSQL_ROOT_PASSWORD: admn45
+      MYSQL_DATABASE: kexabdd
     volumes:
-      - ./bddpostgresql:/var/lib/postgresql/data
+      - ./bddmysql:/var/lib/mysql
+    networks:
+      - bbdnet
 
   grafana:
     image: grafana/grafana
@@ -34,8 +38,4 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admn45
-    volumes:
-      - ./grafana:/var/lib/grafana
-    depends_on:
-      - bddpostgresql
 

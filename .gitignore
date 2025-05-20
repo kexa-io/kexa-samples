@@ -63,6 +63,8 @@ ehthumbs.db
 Thumbs.db 
 *addOnNeed.json
 *headers.json
-*bdd-postgresql
-*bdd-mysql
-*bdd-mongodb
+*bddpostgresql
+*bddmysql
+*bddmongodb
+*mongogui
+*grafana
