@@ -1,0 +1,25 @@
+{ 
+    "kubernetes": [
+        {
+          "name": "kube01",
+          "prefix": "KUBE1_",
+          "description": "kube for my prod 01",
+          "rules": [
+              "kub-prod-check"
+          ]
+        }
+      ],
+      "save": [
+          {
+              "type": "postgres",
+              "name": "DB2",
+              "description": "Database to save the data",
+              "urlName": "postgresql://admin:admn45@bddpostgresql:5432/kexabdd",
+              "logs": true
+          }
+      ],
+    "general":{
+        "checkInterval": "5",
+        "alertInterval": "3600"
+    }
+}

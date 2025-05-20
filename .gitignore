@@ -61,3 +61,10 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db 
+*addOnNeed.json
+*headers.json
+*bddpostgresql
+*bddmysql
+*bddmongodb
+*mongogui
+*grafana

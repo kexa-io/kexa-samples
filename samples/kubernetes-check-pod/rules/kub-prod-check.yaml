@@ -1,5 +1,5 @@
 - version: 1.0.0
-  date: 07-18-2023
+  date: 05-16-2025
   alert:
     fatal:
       enabled: true
@@ -50,18 +50,54 @@
     - name: "namespace-exist-api-4urcloud"
       description : "this rules is to check if namespace exist and notifiable if exist"
       applied: true
-      level: 0
+      level: 1
       cloudProvider: kubernetes
       objectName : namespaces
       conditions:
-        - property : metadata.name
-          condition : DIFFERENT
-          value : 4urcloudwebsitepublic
-    #change the namespace name to your namespace
+        - property: .
+          condition: SOME
+          value:
+            - property : metadata.name
+              condition : EQUAL
+              value : 4urcloud
+    - name: "all-pods-exist-kexawebsite"
+      description : "this rules is to check if all pods exist for a namespace"
+      applied: true
+      level: 1
+      cloudProvider: kubernetes
+      objectName : pods
+      conditions:
+        - property: .
+          condition: SOME
+          value:
+            - operator: AND
+              criteria:
+                - property: metadata.name
+                  condition: STARTS_WITH
+                  value: kexawebsite
+                - property: metadata.namespace
+                  condition: EQUAL
+                  value: 4urcloud
+            - operator: AND
+              criteria:
+                - property: metadata.name
+                  condition: STARTS_WITH
+                  value: oauthinnovtech
+                - property: metadata.namespace
+                  condition: EQUAL
+                  value: 4urcloud
+            - operator: AND
+              criteria:
+                - property: metadata.name
+                  condition: STARTS_WITH
+                  value: web4urcloud
+                - property: metadata.namespace
+                  condition: EQUAL
+                  value: 4urcloud
     - name: "all-pods-running-kexawebsite"
       description : "this rules is to check if all pods are running for a namespace"
       applied: true
-      level: 2
+      level: 1
       cloudProvider: kubernetes
       objectName : pods
       conditions:
@@ -72,4 +108,4 @@
               value : Running
             - property : metadata.namespace
               condition : EQUAL
-              value : kexawebsitepublic
+              value : 4urcloud

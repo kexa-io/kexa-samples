@@ -1,0 +1,61 @@
+services:
+  kexa:
+    build: https://github.com/kexa-io/Kexa.git
+    #image: innovtech/kexa
+    container_name: kexa
+    env_file:
+      - .env
+    environment:
+      - DEBUG=true
+    volumes:
+      - ~/.kube/config:/usr/src/config
+      - ./config:/usr/src/app/config
+      - ./rules:/usr/src/app/rules
+    depends_on:
+     - mongogui
+     - bddmongodb
+
+# for kexa config : "urlName": "mongodb://admin:admn45@bddmongodb:27017/kexabdd?authSource=admin"
+
+  bddmongodb:
+    image: mongo
+    container_name: bddmongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admn45
+      - MONGO_INITDB_DATABASE=kexabdd
+    volumes:
+      - ./init-mongo-db-with-collections.js:/docker-entrypoint-initdb.d/init-mongo-db-with-collections.js:ro
+      - ./bddmongodb:/data/db
+
+# connect with : 
+# mongosh --host bddmongodb -u admin -p admn45 kexabdd
+
+  mongogui:
+    image: mongo-express:latest
+    container_name: mongogui
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admn45
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_SERVER=bddmongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admn45
+
+    volumes:
+      - ./mongogui:/var/lib/mongo-express
+    depends_on:
+      - bddmongodb
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admn45
+

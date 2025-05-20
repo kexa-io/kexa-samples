@@ -1,0 +1,41 @@
+services:
+  kexa:
+    build: https://github.com/kexa-io/Kexa.git
+    #image: innovtech/kexa
+    container_name: kexa
+    env_file:
+      - .env
+    environment:
+      - DEBUG=true
+    volumes:
+      - ~/.kube/config:/usr/src/config
+      - ./config:/usr/src/app/config
+      - ./rules:/usr/src/app/rules
+    depends_on:
+     - mongogui
+     - bddmongodb
+
+# for kexa config : "urlName": ""
+
+  bddmysql:
+    image: mysql
+    container_name: bddmysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: admin
+      MYSQL_ROOT_PASSWORD: admn45
+      MYSQL_DATABASE: kexabdd
+    volumes:
+      - ./bddmysql:/var/lib/mysql
+    networks:
+      - bbdnet
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admn45
+
