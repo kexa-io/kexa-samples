@@ -18,8 +18,10 @@
               "logs": true
           }
       ],
-    "general":{
-        "checkInterval": "5",
-        "alertInterval": "3600"
-    }
+      "general":  {
+          "timeout": 1,
+          "maxRetry": 2,
+          "checkInterval": 120,
+          "alertInterval": 3600
+      }
 }

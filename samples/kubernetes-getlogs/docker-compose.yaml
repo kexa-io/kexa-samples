@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     environment:
-      - DEBUG=true
+      - DEBUG_LEVEL=TRACE
     volumes:
       - ~/.kube/config:/usr/src/config
       - ./config:/usr/src/app/config
