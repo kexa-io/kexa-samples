@@ -1,0 +1,19 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "pgsql",
+            "Group": "Servers",
+            "Host": "bddpostgresql",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "admin",
+            "Password": "admn45",
+            "SSLMode": "none",
+            "SSLCompression": 0,
+            "Timeout": 0,
+            "UseSSHTunnel": 0,
+            "TunnelPort": "22",
+            "TunnelAuthentication": 0
+        }
+    }
+}
