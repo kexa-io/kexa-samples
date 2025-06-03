@@ -9,10 +9,11 @@ services:
       - DEBUG_LEVEL=TRACE
     volumes:
       - ~/.kube/config:/usr/src/config
-      - ./config:/usr/src/app/config
-      - ./rules:/usr/src/app/rules
+      - ./config:/app/config
+      - ./rules:/app/rules
     depends_on:
-     - bddpostgresql
+      bddpostgresql:
+        condition: service_healthy
 
   bddpostgresql:
     image: postgres:latest
@@ -26,6 +27,26 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata # Emplacement des données à l'intérieur du conteneur
     volumes:
       - ./bddpostgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: email@domain.com
+      PGADMIN_DEFAULT_PASSWORD: admn45
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+      - ./pgadminservers/servers.json:/pgadmin4/servers.json
+    depends_on:
+      bddpostgresql:
+        condition: service_healthy
 
   grafana:
     image: grafana/grafana
@@ -34,8 +55,17 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admn45
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_HOST=bddpostgresql
+      - GF_DATABASE_NAME=kexabdd
+      - GF_DATABASE_USER=admin
+      - GF_DATABASE_PASSWORD=admn45
+      - GF_DATABASE_SSL_MODE=disable
     volumes:
       - ./grafana:/var/lib/grafana
+      - ./grafana-dashboards/dashboard.yaml:/etc/grafana/provisioning/dashboards/main.yaml
+      - ./grafana-dashboards/dashboards:/var/lib/grafana/dashboards
     depends_on:
-      - bddpostgresql
+      bddpostgresql:
+        condition: service_healthy
 
