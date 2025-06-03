@@ -1,0 +1,12 @@
+{
+    "github": [
+        {
+            "name": "Project A",
+            "prefix": "PROJECTA_",
+            "description": "First subscription (0) : Project A subscription",
+            "rules": [
+                "github"
+            ]
+        }
+    ]
+}

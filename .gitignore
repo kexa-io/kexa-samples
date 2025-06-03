@@ -65,6 +65,8 @@ Thumbs.db
 *headers.json
 *bddpostgresql
 *bddmysql
-*bddmongodb
+*bdd-mongodb
 *mongogui
 *grafana
+*pgadmin-data
+*gcp.json

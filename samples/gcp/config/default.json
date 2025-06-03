@@ -1,0 +1,12 @@
+{
+  "gcp": [
+    {
+      "name": "GCP project A",
+      "prefix": "GCPPROJECTA_",
+      "description": "First subscription (0) : Project B subscription",
+      "rules": [
+        "gcp"
+      ]
+    }
+  ]
+}
