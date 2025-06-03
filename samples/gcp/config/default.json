@@ -6,9 +6,6 @@
       "description": "First subscription (0) : Project B subscription",
       "rules": [
         "gcp"
-      ],
-      "regions": [
-        "us-east1"
       ]
     }
   ]

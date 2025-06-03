@@ -50,22 +50,15 @@
         - level: 3
           min: 1
   rules:
-    # WorkloadName Tags checking
-    - name: "gcp-tags-check"
-      description: "this rule is to check on gcp tags for a specific pattern"
-      applied: false
+    - name: "gcp-storage-bucket-public-access-block-enforced"
+      description: "this rule is to verify if the public access block is enabled on the bucket"
+      applied: true
       level: 1
       cloudProvider: gcp
-      objectName: tags_keys
+      objectName: bucket
       conditions:
-        - operator: XNOR
+        - operator: AND
           criteria:
-            - property: tagName
-              condition: REGEX
-              value: 'WorkloadName'
-            - property: values
-              condition: ALL
-              value:
-                - property: value
-                  condition: REGEX
-                  value : ^(ControlCharts|OtherValue|AnotherValue)$
+            - property: metadata.iamConfiguration.publicAccessPrevention
+              condition: EQUAL
+              value: 'enforced'
