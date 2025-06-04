@@ -10,10 +10,20 @@ This directory contains sample configurations and rules for running Kexa in a Ku
 
 ## Setup
 
-1. just run 
+1. just run
 
     ```bash
-    docker-compose up
+    # copy the example env file and update the values
+    cp .env-sample .env
+    # run the docker compose file
+    docker-compose up [-d]
+    ```
+
+2. clean up
+
+    ```bash
+    # stop the docker compose file
+    docker-compose down
     ```
 
 ## Configuration
