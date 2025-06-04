@@ -1,3 +1,7 @@
+# Kexa
+**/output/*
+!**/output/.gitkeep
+
 # Docker
 .docker/
 docker-compose.override.yml
