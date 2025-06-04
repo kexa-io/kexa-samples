@@ -7,3 +7,4 @@ services:
     volumes:
       - ./config:/app/config
       - ./rules:/app/rules
+      - ./output:/app/output
