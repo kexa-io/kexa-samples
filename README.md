@@ -33,7 +33,7 @@ This repository contains sample configurations and Docker Compose files for runn
 3. Use Docker Compose to start the services:
 
    ```bash
-   docker-compose up -d
+   docker-compose up
    ```
 
 ## Contributing
