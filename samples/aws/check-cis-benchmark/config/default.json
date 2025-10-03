@@ -1,0 +1,12 @@
+{
+  "aws": [
+    {
+      "name": "AWS Project A",
+      "prefix": "AWSPROJECTA_",
+      "description": "First subscription (0) : Project A subscription",
+      "rules": [
+        "awsBenchmarkRules"
+      ]
+    }
+  ]
+}
