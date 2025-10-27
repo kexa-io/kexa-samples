@@ -1,0 +1,11 @@
+{
+  "azure": [
+    {
+      "description": "organization kexa",
+      "prefix": "KEXAIO_",
+      "rules": [
+        "azureOrphanResources"
+      ]
+    }
+  ]
+}
