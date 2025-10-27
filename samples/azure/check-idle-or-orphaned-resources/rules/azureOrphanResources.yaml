@@ -1,0 +1,52 @@
+- version: 1.0.0
+  date: 07-18-2023
+  alert:
+    fatal:
+      enabled: true
+      type: 
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type: 
+        - log
+        #- email
+        #- sms
+      to: 
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type: 
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type: 
+        - log
+        #- email
+      to: 
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type: 
+        - log
+        #- email
+        #- webhook
+        #- sms
+      to: 
+        #- http://127.0.0.1:5000/test
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
