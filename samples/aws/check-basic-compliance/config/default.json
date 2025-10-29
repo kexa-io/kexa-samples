@@ -5,10 +5,7 @@
       "prefix": "AWSPROJECTA_",
       "description": "First subscription (0) : Project A subscription",
       "rules": [
-        "awsCisFoundations"
-      ],
-      "regions": [
-        "us-east-1"
+        "awsBenchmarkRules"
       ]
     }
   ]
