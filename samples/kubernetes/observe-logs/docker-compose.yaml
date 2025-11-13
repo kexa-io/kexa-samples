@@ -1,6 +1,5 @@
 services:
   kexa:
-    build: https://github.com/kexa-io/Kexa.git
     image: kexa/kexa
     container_name: kexa
     env_file:
