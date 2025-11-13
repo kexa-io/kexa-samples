@@ -1,8 +1,6 @@
 services:
   kexa:
-    build: https://github.com/kexa-io/Kexa.git
-    #image: innovtech/kexa
-    container_name: kexa
+    image: kexa/kexa
     env_file:
       - .env
     volumes:
