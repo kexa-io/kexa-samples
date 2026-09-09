@@ -47,7 +47,7 @@
           min: 1
   rules:
     #change the namespace name to your namespace
-    - name: "namespace-exist-api-4urcloud"
+    - name: "namespace-exist-example"
       description : "this rules is to check if namespace exist and notifiable if exist"
       applied: true
       level: 1
@@ -59,8 +59,8 @@
           value:
             - property : metadata.name
               condition : EQUAL
-              value : 4urcloud
-    - name: "all-pods-exist-kexawebsite"
+              value : myNamespace
+    - name: "all-pods-exist-example"
       description : "this rules is to check if all pods exist for a namespace"
       applied: true
       level: 1
@@ -74,27 +74,27 @@
               criteria:
                 - property: metadata.name
                   condition: STARTS_WITH
-                  value: kexawebsite
+                  value: myapp-frontend
                 - property: metadata.namespace
                   condition: EQUAL
-                  value: 4urcloud
+                  value: myNamespace
             - operator: AND
               criteria:
                 - property: metadata.name
                   condition: STARTS_WITH
-                  value: oauthinnovtech
+                  value: myapp-oauth
                 - property: metadata.namespace
                   condition: EQUAL
-                  value: 4urcloud
+                  value: myNamespace
             - operator: AND
               criteria:
                 - property: metadata.name
                   condition: STARTS_WITH
-                  value: web4urcloud
+                  value: myapp-web
                 - property: metadata.namespace
                   condition: EQUAL
-                  value: 4urcloud
-    - name: "all-pods-running-kexawebsite"
+                  value: myNamespace
+    - name: "all-pods-running-example"
       description : "this rules is to check if all pods are running for a namespace"
       applied: true
       level: 1
@@ -108,7 +108,7 @@
               value : Running
             - property : metadata.namespace
               condition : EQUAL
-              value : 4urcloud
+              value : myNamespace
 
     - name: "kube-is-persistent-volume-bounded"
       description : "this rules is to verify that persistent volume is bounded"

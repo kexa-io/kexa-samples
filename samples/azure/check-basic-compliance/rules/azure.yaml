@@ -64,9 +64,6 @@
         - property: publicNetworkAccess
           condition: DIFFERENT
           value: 'Enabled'
-        - property: name
-          condition: EQUAL
-          value: 'storcloudpriceprdpr'
     - name: "azure-storage-secure-transfer"
       description: "this rule to ensure that secure transfer is enabled for storage accounts"
       applied: true
