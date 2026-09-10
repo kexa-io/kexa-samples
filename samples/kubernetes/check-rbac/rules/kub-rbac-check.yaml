@@ -1,0 +1,90 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "k8s-role-no-wildcard-permissions"
+      description: "CIS Kubernetes Benchmark 5.1.3 - Minimize wildcard use in Roles and ClusterRoles. A Role/ClusterRole granting '*' on '*' resources with '*' verbs effectively grants cluster-admin-equivalent access to whatever it's bound to."
+      applied: true
+      level: 2
+      cloudProvider: kubernetes
+      objectName: role
+      conditions:
+        - property: rules.0.verbs
+          condition: NOT_INCLUDE
+          value: "*"
+
+    - name: "k8s-clusterrole-no-wildcard-permissions"
+      description: "Same check as above, but for cluster-scoped ClusterRole objects -- these are higher-risk since they apply cluster-wide, not just to one namespace."
+      applied: true
+      level: 3
+      cloudProvider: kubernetes
+      objectName: clusterrole
+      conditions:
+        - property: rules.0.verbs
+          condition: NOT_INCLUDE
+          value: "*"
+
+    - name: "k8s-rolebinding-not-to-cluster-admin"
+      description: "A namespaced RoleBinding referencing the built-in 'cluster-admin' ClusterRole grants full cluster-wide admin rights to whatever it's bound to, from within a single namespace -- almost always unintentional over-provisioning."
+      applied: true
+      level: 3
+      cloudProvider: kubernetes
+      objectName: rolebinding
+      conditions:
+        - property: roleRef.name
+          condition: DIFFERENT
+          value: "cluster-admin"
+
+    - name: "k8s-clusterrolebinding-cluster-admin-review"
+      description: "Every ClusterRoleBinding to 'cluster-admin' should be reviewed and justified -- flag them all for manual review rather than assuming they're all necessary."
+      applied: true
+      level: 2
+      cloudProvider: kubernetes
+      objectName: clusterrolebinding
+      conditions:
+        - property: roleRef.name
+          condition: DIFFERENT
+          value: "cluster-admin"

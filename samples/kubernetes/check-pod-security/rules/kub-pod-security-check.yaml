@@ -1,0 +1,110 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "k8s-no-privileged-containers"
+      description: "CIS Kubernetes Benchmark 5.2.1 - Containers must not run in privileged mode. A privileged container has effectively the same access as processes running on the host, breaking container isolation entirely."
+      applied: true
+      level: 3
+      cloudProvider: kubernetes
+      objectName: pods
+      conditions:
+        - property: spec.containers
+          condition: ALL
+          value:
+            - property: securityContext.privileged
+              condition: DIFFERENT
+              value: true
+
+    - name: "k8s-no-host-network-pods"
+      description: "CIS Kubernetes Benchmark 5.2.4 - Pods should not share the host's network namespace. hostNetwork:true exposes the pod directly on the node's network interfaces, bypassing normal pod network isolation."
+      applied: true
+      level: 2
+      cloudProvider: kubernetes
+      objectName: pods
+      conditions:
+        - property: spec.hostNetwork
+          condition: DIFFERENT
+          value: true
+
+    - name: "k8s-no-host-pid-pods"
+      description: "CIS Kubernetes Benchmark 5.2.3 - Pods should not share the host's process ID namespace. hostPID:true lets a container see and interact with every process running on the node."
+      applied: true
+      level: 2
+      cloudProvider: kubernetes
+      objectName: pods
+      conditions:
+        - property: spec.hostPID
+          condition: DIFFERENT
+          value: true
+
+    - name: "k8s-containers-no-privilege-escalation"
+      description: "Containers should not be allowed to gain more privileges than their parent process (allowPrivilegeEscalation should be explicitly false)."
+      applied: true
+      level: 2
+      cloudProvider: kubernetes
+      objectName: pods
+      conditions:
+        - property: spec.containers
+          condition: ALL
+          value:
+            - property: securityContext.allowPrivilegeEscalation
+              condition: DIFFERENT
+              value: true
+
+    - name: "k8s-containers-no-root-filesystem-writable"
+      description: "Containers should run with a read-only root filesystem where possible, limiting the impact of a compromised process trying to persist changes or drop tooling on disk."
+      applied: true
+      level: 1
+      cloudProvider: kubernetes
+      objectName: pods
+      conditions:
+        - property: spec.containers
+          condition: ALL
+          value:
+            - property: securityContext.readOnlyRootFilesystem
+              condition: EQUAL
+              value: true

@@ -1,0 +1,9 @@
+services:
+  kexa:
+    image: kexa/kexa
+    env_file:
+      - .env
+    volumes:
+      - ~/.kube/config:/usr/src/config
+      - ./config:/app/config
+      - ./rules:/app/rules

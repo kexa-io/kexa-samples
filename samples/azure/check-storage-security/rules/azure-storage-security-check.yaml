@@ -1,0 +1,90 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "azure-storage-no-public-blob-access"
+      description: "Storage accounts should not allow public blob access at the account level. When enabled, any container/blob explicitly set to public is reachable anonymously over the internet."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.storage
+      conditions:
+        - property: allowBlobPublicAccess
+          condition: DIFFERENT
+          value: true
+
+    - name: "azure-storage-min-tls-version-1-2"
+      description: "Storage accounts should enforce a minimum TLS version of 1.2. Older TLS versions have known cryptographic weaknesses and should not be accepted for data-in-transit."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.storage
+      conditions:
+        - property: minimumTlsVersion
+          condition: EQUAL
+          value: "TLS1_2"
+
+    - name: "azure-storage-secure-transfer-required"
+      description: "Storage accounts should require secure transfer (HTTPS only). Without this, clients can connect over plain HTTP and expose data and credentials in transit."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.storage
+      conditions:
+        - property: enableHttpsTrafficOnly
+          condition: EQUAL
+          value: true
+
+    - name: "azure-storage-no-shared-key-access"
+      description: "Storage accounts should disallow authentication via shared access keys where possible, favoring Azure AD-based authentication which is centrally auditable and revocable."
+      applied: true
+      level: 1
+      cloudProvider: azure
+      objectName: KexaAzure.storage
+      conditions:
+        - property: allowSharedKeyAccess
+          condition: DIFFERENT
+          value: true

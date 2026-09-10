@@ -1,0 +1,135 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "azure-nsg-no-open-ssh-from-internet"
+      description: "NSGs should not allow inbound SSH (port 22) from any source (0.0.0.0/0 / '*'). An internet-exposed SSH port is one of the most commonly exploited entry points for brute-force and credential-stuffing attacks."
+      applied: true
+      level: 3
+      cloudProvider: azure
+      objectName: NetworkManagementClient.networkSecurityGroups
+      conditions:
+        - property: securityRules
+          condition: ALL
+          value:
+            - operator: NAND
+              criteria:
+                - property: access
+                  condition: EQUAL
+                  value: 'Allow'
+                - property: direction
+                  condition: EQUAL
+                  value: 'Inbound'
+                - property: sourceAddressPrefix
+                  condition: EQUAL
+                  value: '*'
+                - property: destinationPortRange
+                  condition: EQUAL
+                  value: '22'
+
+    - name: "azure-nsg-no-open-rdp-from-internet"
+      description: "NSGs should not allow inbound RDP (port 3389) from any source. Same risk class as open SSH, but for Windows VMs -- a very common ransomware entry vector."
+      applied: true
+      level: 3
+      cloudProvider: azure
+      objectName: NetworkManagementClient.networkSecurityGroups
+      conditions:
+        - property: securityRules
+          condition: ALL
+          value:
+            - operator: NAND
+              criteria:
+                - property: access
+                  condition: EQUAL
+                  value: 'Allow'
+                - property: direction
+                  condition: EQUAL
+                  value: 'Inbound'
+                - property: sourceAddressPrefix
+                  condition: EQUAL
+                  value: '*'
+                - property: destinationPortRange
+                  condition: EQUAL
+                  value: '3389'
+
+    - name: "azure-nsg-no-any-any-inbound-allow"
+      description: "NSGs should not have a rule allowing inbound traffic from any source, on any port, to any destination -- this effectively disables the firewall for inbound traffic entirely."
+      applied: true
+      level: 3
+      cloudProvider: azure
+      objectName: NetworkManagementClient.networkSecurityGroups
+      conditions:
+        - property: securityRules
+          condition: ALL
+          value:
+            - operator: NAND
+              criteria:
+                - property: access
+                  condition: EQUAL
+                  value: 'Allow'
+                - property: direction
+                  condition: EQUAL
+                  value: 'Inbound'
+                - property: sourceAddressPrefix
+                  condition: EQUAL
+                  value: '*'
+                - property: destinationPortRange
+                  condition: EQUAL
+                  value: '*'
+
+    - name: "azure-vm-no-public-ip"
+      description: "Virtual machines should not have a public IP address directly attached unless strictly required -- prefer a load balancer, bastion, or VPN for access instead of exposing the VM's network interface directly to the internet."
+      applied: true
+      level: 1
+      cloudProvider: azure
+      objectName: NetworkManagementClient.networkInterfaces
+      conditions:
+        - property: ipConfigurations
+          condition: ALL
+          value:
+            - property: publicIPAddress
+              condition: EQUAL
+              value: null

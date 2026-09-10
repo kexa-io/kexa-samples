@@ -1,0 +1,8 @@
+services:
+  kexa:
+    image: kexa/kexa
+    env_file:
+      - .env
+    volumes:
+      - ./config:/app/config
+      - ./rules:/app/rules
