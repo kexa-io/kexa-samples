@@ -1,0 +1,90 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "azure-keyvault-purge-protection-enabled"
+      description: "Key Vaults should have purge protection enabled. Without it, a deleted vault (or a deleted key/secret) can be permanently purged before its soft-delete retention period ends, defeating recovery from accidental or malicious deletion."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.vaults
+      conditions:
+        - property: properties.enablePurgeProtection
+          condition: EQUAL
+          value: true
+
+    - name: "azure-keyvault-soft-delete-enabled"
+      description: "Key Vaults should have soft delete enabled, so a deleted vault or its contents can be recovered within the retention window instead of being lost immediately."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.vaults
+      conditions:
+        - property: properties.enableSoftDelete
+          condition: EQUAL
+          value: true
+
+    - name: "azure-keyvault-public-network-access-disabled"
+      description: "Key Vaults should not allow public network access. A vault reachable from the internet is one misconfigured access policy away from leaking keys/secrets, instead of being reachable only from trusted VNets/private endpoints."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.vaults
+      conditions:
+        - property: properties.publicNetworkAccess
+          condition: DIFFERENT
+          value: "Enabled"
+
+    - name: "azure-keyvault-rbac-authorization-enabled"
+      description: "Key Vaults should use Azure RBAC for authorization instead of legacy vault access policies, which are coarser-grained and harder to audit centrally alongside the rest of Azure AD role assignments."
+      applied: true
+      level: 1
+      cloudProvider: azure
+      objectName: KexaAzure.vaults
+      conditions:
+        - property: properties.enableRbacAuthorization
+          condition: EQUAL
+          value: true

@@ -99,3 +99,25 @@
         - property: legacyAbac.enabled
           condition: DIFFERENT
           value: true
+
+    - name: "gke-secrets-encryption-enabled"
+      description: "GKE clusters should have application-layer secrets encryption enabled, so Kubernetes Secrets are encrypted with a customer-managed key at the etcd storage layer, not just relying on GCP's default at-rest disk encryption."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: databaseEncryption.state
+          condition: EQUAL
+          value: "ENCRYPTED"
+
+    - name: "gke-logging-enabled"
+      description: "GKE clusters should have Cloud Logging enabled -- without it, there is no audit trail of cluster and workload activity to investigate an incident after the fact."
+      applied: true
+      level: 1
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: loggingService
+          condition: DIFFERENT
+          value: "none"

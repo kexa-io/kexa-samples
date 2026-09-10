@@ -88,3 +88,14 @@
         - property: allowSharedKeyAccess
           condition: DIFFERENT
           value: true
+
+    - name: "azure-storage-network-default-deny"
+      description: "Storage account network rules should default-deny traffic, only allowing explicitly listed IP ranges/VNets, instead of defaulting to Allow (reachable from any network) with rules acting only as an allow-list on top."
+      applied: true
+      level: 2
+      cloudProvider: azure
+      objectName: KexaAzure.storage
+      conditions:
+        - property: networkRuleSet.defaultAction
+          condition: EQUAL
+          value: "Deny"
