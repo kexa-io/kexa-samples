@@ -1,0 +1,123 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "gke-network-policy-enabled"
+      description: "GKE clusters should have Network Policy enforcement enabled. Without it, every pod can reach every other pod in the cluster regardless of namespace, with no way to restrict east-west traffic."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: networkPolicy.enabled
+          condition: EQUAL
+          value: true
+
+    - name: "gke-private-nodes-enabled"
+      description: "GKE cluster nodes should not have public IPs (private cluster). Nodes with public IPs are directly reachable from the internet, expanding the attack surface unnecessarily."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: privateClusterConfig.enablePrivateNodes
+          condition: EQUAL
+          value: true
+
+    - name: "gke-shielded-nodes-enabled"
+      description: "GKE clusters should use Shielded GKE Nodes, which protect against rootkits and bootkits via secure boot, vTPM-based integrity monitoring, and measured boot."
+      applied: true
+      level: 1
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: shieldedNodes.enabled
+          condition: EQUAL
+          value: true
+
+    - name: "gke-master-authorized-networks-enabled"
+      description: "GKE cluster control plane should restrict access to a set of authorized CIDR ranges rather than being reachable from any IP."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: masterAuthorizedNetworksConfig.enabled
+          condition: EQUAL
+          value: true
+
+    - name: "gke-no-legacy-abac"
+      description: "GKE clusters should not use legacy Attribute-Based Access Control (ABAC), superseded by the much more granular RBAC model."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: legacyAbac.enabled
+          condition: DIFFERENT
+          value: true
+
+    - name: "gke-secrets-encryption-enabled"
+      description: "GKE clusters should have application-layer secrets encryption enabled, so Kubernetes Secrets are encrypted with a customer-managed key at the etcd storage layer, not just relying on GCP's default at-rest disk encryption."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: databaseEncryption.state
+          condition: EQUAL
+          value: "ENCRYPTED"
+
+    - name: "gke-logging-enabled"
+      description: "GKE clusters should have Cloud Logging enabled -- without it, there is no audit trail of cluster and workload activity to investigate an incident after the fact."
+      applied: true
+      level: 1
+      cloudProvider: gcp
+      objectName: cluster
+      conditions:
+        - property: loggingService
+          condition: DIFFERENT
+          value: "none"

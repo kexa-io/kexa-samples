@@ -1,0 +1,82 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "gcp-compute-no-external-ip"
+      description: "Compute Engine instances should not have an external/public IP address attached directly. Direct internet exposure bypasses Cloud NAT/load-balancer chokepoints and puts the instance's own attack surface (SSH, RDP, exposed services) straight on the internet."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: compute
+      conditions:
+        - property: networkInterfaces.0.accessConfigs
+          condition: EQUAL
+          value: null
+
+    - name: "gcp-compute-shielded-vm-secure-boot-enabled"
+      description: "Compute instances should have Shielded VM secure boot enabled to protect against boot-level rootkits and bootkits."
+      applied: true
+      level: 1
+      cloudProvider: gcp
+      objectName: compute
+      conditions:
+        - property: shieldedInstanceConfig.enableSecureBoot
+          condition: EQUAL
+          value: true
+
+    - name: "gcp-compute-no-default-service-account"
+      description: "Compute instances should not run with the project's default service account, which typically carries the broad Editor role -- a compromised instance would inherit far more project-wide access than the workload needs."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: compute
+      conditions:
+        - property: serviceAccounts
+          condition: ALL
+          value:
+            - property: email
+              condition: NOT_INCLUDE
+              value: "-compute@developer.gserviceaccount.com"

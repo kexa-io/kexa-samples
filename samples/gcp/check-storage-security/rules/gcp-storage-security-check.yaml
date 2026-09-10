@@ -1,0 +1,79 @@
+- version: 1.0.0
+  date: 09-10-2026
+  alert:
+    fatal:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    error:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    warning:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    info:
+      enabled: true
+      type:
+        - log
+        #- email
+      to:
+        #- yourEmail@mail.com
+    global:
+      enabled: true
+      type:
+        - log
+      to:
+        #- yourEmail@mail.com
+      conditions:
+        - level: 0
+          min: 1
+        - level: 1
+          min: 1
+        - level: 2
+          min: 1
+        - level: 3
+          min: 1
+  rules:
+    - name: "gcp-bucket-public-access-prevention-enforced"
+      description: "GCS buckets must have public access prevention explicitly enforced (not just 'inherited'), otherwise an IAM/ACL misconfiguration on the bucket can make its objects reachable by anyone on the internet."
+      applied: true
+      level: 2
+      cloudProvider: gcp
+      objectName: bucket
+      conditions:
+        - property: iamConfiguration.publicAccessPrevention
+          condition: EQUAL
+          value: "enforced"
+
+    - name: "gcp-bucket-uniform-bucket-level-access-enabled"
+      description: "Buckets should use uniform bucket-level access instead of legacy per-object ACLs, which are easy to misconfigure and hard to audit at scale."
+      applied: true
+      level: 1
+      cloudProvider: gcp
+      objectName: bucket
+      conditions:
+        - property: iamConfiguration.uniformBucketLevelAccess.enabled
+          condition: EQUAL
+          value: true
+
+    - name: "gcp-bucket-versioning-enabled"
+      description: "Buckets holding important data should have object versioning enabled to protect against accidental deletion or overwrite, and to aid ransomware recovery."
+      applied: true
+      level: 1
+      cloudProvider: gcp
+      objectName: bucket
+      conditions:
+        - property: versioning.enabled
+          condition: EQUAL
+          value: true
