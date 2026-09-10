@@ -52,7 +52,7 @@
       cloudProvider: gcp
       objectName: bucket
       conditions:
-        - property: metadata.iamConfiguration.publicAccessPrevention
+        - property: iamConfiguration.publicAccessPrevention
           condition: EQUAL
           value: "enforced"
 
@@ -63,7 +63,7 @@
       cloudProvider: gcp
       objectName: bucket
       conditions:
-        - property: metadata.iamConfiguration.uniformBucketLevelAccess.enabled
+        - property: iamConfiguration.uniformBucketLevelAccess.enabled
           condition: EQUAL
           value: true
 
@@ -74,6 +74,6 @@
       cloudProvider: gcp
       objectName: bucket
       conditions:
-        - property: metadata.versioning.enabled
+        - property: versioning.enabled
           condition: EQUAL
           value: true
